@@ -1,6 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import MobileRightMenuSlider from '@material-ui/core/Drawer'
+import MenuIcon from '@material-ui/icons/Menu';
+import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
+
 import {
     AppBar, Avatar, Box, Divider,
     IconButton, List, ListItem, ListItemIcon,
@@ -16,6 +20,16 @@ import Typed from 'react-typed';
 
 // CSS STYLES
 const useStyles = makeStyles(theme => ({
+    navbarContainor: {
+        position:"fixed",
+        width: "100%",
+        zIndex: 1,
+    },
+    titleIcon: {
+        marginRight: "9px", 
+        width: theme.spacing(3),
+        height: theme.spacing(3),
+    },
     avatar: {
         display: "block",
         margin: "0.5rem auto",
@@ -26,40 +40,42 @@ const useStyles = makeStyles(theme => ({
         fontSize: "26px",
         display: "block",
         paddingLeft: "30%",
-        paddingTop: "5%",
+        paddingTop: theme.spacing(2),
         color: "white"
     },
     menuSliderContainerHeader: {
         width: 250,
-        background: "#009999",
-        height: "100%",
+        background: "#00AAAA",
     },
     menuSliderContainerContent: {
         width: 250,
-        background: "snow",
-        height: "100%",
+        background: "#FFFFFF",
     },
     listItem: {
-        color: "#009999"
+        color: "#00AAAA"
     }
 }));
 
 const menuItems = [
     {
         listIcon: <Home />,
-        listText: "Home"
+        listText: "Home",
+        listPath: "/"
     },
     {
         listIcon: <AssignmentInd />,
-        listText: "Resume"
+        listText: "Resume",
+        listPath: "/resume",
     },
     {
         listIcon: <Apps />,
-        listText: "Portfolio"
+        listText: "Portfolio",
+        listPath: "/portfolio",
     },
     {
         listIcon: <ContactMail />,
-        listText: "Contacts"
+        listText: "Contacts",
+        listPath: "/contacts",
     }
 ];
 
@@ -67,11 +83,28 @@ const Navbar = () => {
     const [state, setState] = useState({
         right: false
     })
+    const ref = useRef(null);
+
     const toggleSlider = (slider, open) => () => {
         // ...state <- set back the previous sate , 
         // [slider( get "right" from click)]: open <- update state
         setState({ ...state, [slider]: open });
     };
+
+    // handle for click outside to leave nav bar
+    const handleClickOutside = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+            toggleSlider("right", false)();
+        }
+    };
+    useEffect(() => {
+        // add when mounted
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [ref]);
+    //
 
     const classes = useStyles()
 
@@ -80,6 +113,7 @@ const Navbar = () => {
             className={classes.menuSliderContainerHeader}
             component="div"
             onClick={toggleSlider(slider, false)}
+            ref={ref}
         >
             <Typed className={classes.navTitle}
                 strings={['Welcome!']}
@@ -90,10 +124,10 @@ const Navbar = () => {
             <Divider />
             <List className={classes.menuSliderContainerContent}>
                 {
-                    menuItems.map(function (lsItem, key, { length }) {
+                    menuItems.map( (lsItem, key, { length }) => {
                         return (
                             <Box key={key}>
-                                <ListItem button key={key}>
+                                <ListItem button key={key} component={Link} to={lsItem.listPath}>
                                     <ListItemIcon className={classes.listItem}> {lsItem.listIcon} </ListItemIcon>
                                     <ListItemText primary={lsItem.listText} className={classes.listItem} />
                                 </ListItem>
@@ -108,15 +142,16 @@ const Navbar = () => {
 
     return (
         <>
-            <Box component="nav">
-                <AppBar position="static" style={{ background: "#394C4E" }}>
+            <Box component="nav" className={classes.navbarContainor}>
+                <AppBar style={{ background: "#00AAAA", zIndex: 1, }}>
                     <Toolbar>
                         <IconButton onClick={toggleSlider("right", true)}>
-                            <ArrowBack style={{ color: "#FBFAFA" }} />
+                            {state === false ? <ArrowBack style={{ color: "#FBFAFA" }} /> : <MenuIcon style={{ color: "#FBFAFA" }} />}
                         </IconButton>
-                        <Typography variant="h5" style={{ color: "#FBFAFA" }}>
+                        <Typography variant="h5" style={{ color: "#FBFAFA" , zIndex: 1 }}>
                             <Box component="div">
-                                Portfolio
+                                <SportsSoccerIcon className={classes.titleIcon} />
+                                Clement's Portfolio
                             </Box>
                         </Typography>
                         <MobileRightMenuSlider open={state.right}>
