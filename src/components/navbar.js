@@ -1,19 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import MobileRightMenuSlider from '@material-ui/core/Drawer'
-import MenuIcon from '@material-ui/icons/Menu';
-import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
+import Resume from '../Resume.pdf';
+import Contacts from './contacts';
 
 import {
     AppBar, Avatar, Box, Divider,
     IconButton, List, ListItem, ListItemIcon,
-    ListItemText, Slider, Toolbar,
-    Typography, ThemeProvider,
+    ListItemText, Toolbar, Typography,
 } from '@material-ui/core';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ImportContactsIcon from '@material-ui/icons/ImportContacts';
+import MenuIcon from '@material-ui/icons/Menu';
+import MobileRightMenuSlider from '@material-ui/core/Drawer';
+import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
+
 import {
-    Apps, ArrowBack, AssignmentInd,
-    ContactMail, Home,
+    Apps, ArrowBack, Home
 } from '@material-ui/icons';
 import welcomeIcon from '../welcomeIcon.png';
 import Typed from 'react-typed';
@@ -21,12 +24,12 @@ import Typed from 'react-typed';
 // CSS STYLES
 const useStyles = makeStyles(theme => ({
     navbarContainor: {
-        position:"fixed",
+        position: "fixed",
         width: "100%",
         zIndex: 1,
     },
     titleIcon: {
-        marginRight: "9px", 
+        marginRight: "9px",
         width: theme.spacing(3),
         height: theme.spacing(3),
     },
@@ -44,39 +47,53 @@ const useStyles = makeStyles(theme => ({
         color: "white"
     },
     menuSliderContainerHeader: {
-        width: 250,
+        width: "330px",
         background: "#00AAAA",
     },
     menuSliderContainerContent: {
-        width: 250,
+        width: "330px",
         background: "#FFFFFF",
+    }, listItem: {
+        color: "#00AAAA",
     },
-    listItem: {
-        color: "#00AAAA"
+    listText: {
+        color: "#00AAAA",
+        fontSize: "17px"
+    },
+    contactsBox: {
+        width: '100%',
+        height: theme.spacing(7),
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'absolute', //Here is the trick
+        bottom: 8, //Here is the trick
+    },
+    divider: {
+        backgroundColor: "#00AAAA",
     }
 }));
 
 const menuItems = [
     {
-        listIcon: <Home />,
+        listIcon: <Home fontSize="large" />,
         listText: "Home",
         listPath: "/"
     },
     {
-        listIcon: <AssignmentInd />,
-        listText: "Resume",
-        listPath: "/resume",
+        listIcon: <ImportContactsIcon fontSize="large" />,
+        listText: "Education",
+        listPath: "/education",
     },
     {
-        listIcon: <Apps />,
+        listIcon: <Apps fontSize="large" />,
         listText: "Portfolio",
         listPath: "/portfolio",
     },
     {
-        listIcon: <ContactMail />,
-        listText: "Contacts",
-        listPath: "/contacts",
-    }
+        listIcon: <AccountCircleIcon fontSize="large" />,
+        listText: "Resume",
+        listPath: Resume
+    },
 ];
 
 const Navbar = () => {
@@ -108,13 +125,29 @@ const Navbar = () => {
 
     const classes = useStyles()
 
+    const customListItem = lsItem => {
+        if (lsItem.listText !== "Resume")
+            return (
+                <ListItem button component={Link} to={lsItem.listPath}>
+                    <ListItemIcon className={classes.listItem}> {lsItem.listIcon} </ListItemIcon>
+                    <ListItemText classes={{primary:classes.listText}} primary={lsItem.listText} />
+                </ListItem>
+            )
+        else
+            return (
+                <ListItem button component="a" href={lsItem.listPath}>
+                    <ListItemIcon className={classes.listItem}> {lsItem.listIcon} </ListItemIcon>
+                    <ListItemText classes={{primary:classes.listText}} primary={lsItem.listText} />
+                </ListItem>
+            )
+    }
+
     const sideList = slider => (
         <Box
             className={classes.menuSliderContainerHeader}
             component="div"
             onClick={toggleSlider(slider, false)}
-            ref={ref}
-        >
+            ref={ref}>
             <Typed className={classes.navTitle}
                 strings={['Welcome!']}
                 typeSpeed={40}
@@ -124,20 +157,21 @@ const Navbar = () => {
             <Divider />
             <List className={classes.menuSliderContainerContent}>
                 {
-                    menuItems.map( (lsItem, key, { length }) => {
+                    menuItems.map((lsItem, key, { length }) => {
                         return (
                             <Box key={key}>
-                                <ListItem button key={key} component={Link} to={lsItem.listPath}>
-                                    <ListItemIcon className={classes.listItem}> {lsItem.listIcon} </ListItemIcon>
-                                    <ListItemText primary={lsItem.listText} className={classes.listItem} />
-                                </ListItem>
-                                {(key !== length - 1) ? <Divider variant="inset" component="li" className={classes.listItem} /> : null}
+                                {customListItem(lsItem)}
+                                {(key !== length - 1) ? <Divider variant="inset" component="li" classes={{ root:classes.divider }} /> : null}
                             </Box>
                         )
                     })
                 }
+
             </List>
-        </Box>
+            <Box className={classes.contactsBox} >
+                <Contacts />
+            </Box>
+        </Box >
     )
 
     return (
@@ -148,7 +182,7 @@ const Navbar = () => {
                         <IconButton onClick={toggleSlider("right", true)}>
                             {state === false ? <ArrowBack style={{ color: "#FBFAFA" }} /> : <MenuIcon style={{ color: "#FBFAFA" }} />}
                         </IconButton>
-                        <Typography variant="h5" style={{ color: "#FBFAFA" , zIndex: 1 }}>
+                        <Typography variant="h5" style={{ color: "#FBFAFA", zIndex: 1 }}>
                             <Box component="div">
                                 <SportsSoccerIcon className={classes.titleIcon} />
                                 Clement's Portfolio

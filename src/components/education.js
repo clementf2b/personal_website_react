@@ -2,14 +2,14 @@ import React from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
-    Avatar, Box, Grid, Paper,
-    IconButton, List, ListItem, ListItemText,
-    ListItemAvatar, Divider, Typography,
+    Avatar, Box, Paper, List,
+    ListItem, ListItemText, ListItemAvatar, Divider,
+    Typography,
 } from '@material-ui/core';
 import Navbar from './navbar';
 import {
     Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem,
-    TimelineSeparator, TimelineOppositeContent
+    TimelineSeparator
 } from '@material-ui/lab';
 
 import ParticlesEffect from './particlesEffect';
@@ -42,16 +42,15 @@ const useStyles = makeStyles(theme => ({
         height: theme.spacing(4),
         marginRight: "8px",
         paddingBottom: "3px",
-        color: "rgba(255,255,255,0.8)",
+        color: "rgba(0,190,190,0.8)",
         borderRadius: "50%"
     },
     educationBox: {
         padding: theme.spacing(5),
     },
     educationHeaderTitle: {
-        paddingTop: theme.spacing(5),
         paddingBottom: theme.spacing(1),
-        color: "rgba(255,255,255,0.8)"
+        color: "rgba(0,190,190,0.8)",
     },
     paper: {
         backgroundColor: "#101010",
@@ -59,13 +58,13 @@ const useStyles = makeStyles(theme => ({
         opacity: "0.6",
     },
     title: {
-        color: "#FFFFFF"
+        color: "#00BABA"
     },
     dot: {
         backgroundColor: "rgba(0,0,0,0.6)",
     },
     connector: {
-        backgroundColor: "rgba(230,230,230,0.5)",
+        backgroundColor: "rgba(0,190,190,0.5)",
     },
 
     jobHeaderTitle: {
@@ -205,7 +204,7 @@ const JobList = () => {
     )
 };
 
-const Resume = (props) => {
+const Education = (props) => {
     const classes = useStyles()
     const isMobile = useMediaQuery('(min-width:780px)');
 
@@ -249,4 +248,4 @@ const Resume = (props) => {
     );
 };
 
-export default Resume;
+export default Education;

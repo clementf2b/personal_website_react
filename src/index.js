@@ -6,6 +6,13 @@ import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import 'react-mdl/extra/material.css';
 import 'react-mdl/extra/material.js';
+// import WebFont from 'webfontloader';
+
+// WebFont.load({
+//   google: {
+//     families: ['Titillium Web:300,400,700', 'sans-serif']
+//   }
+// });
 
 ReactDOM.render(
   // <React.StrictMode>
