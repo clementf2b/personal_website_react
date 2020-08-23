@@ -13,7 +13,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ImportContactsIcon from '@material-ui/icons/ImportContacts';
 import MenuIcon from '@material-ui/icons/Menu';
 import MobileRightMenuSlider from '@material-ui/core/Drawer';
-import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
+import footballIcon from '../favicon.png';
 
 import {
     Apps, ArrowBack, Home
@@ -27,6 +27,10 @@ const useStyles = makeStyles(theme => ({
         position: "fixed",
         width: "100%",
         zIndex: 1,
+    },
+    titleBox: {
+        display: "flex",
+        flexWrap: "nowrap"
     },
     titleIcon: {
         marginRight: "9px",
@@ -183,9 +187,8 @@ const Navbar = () => {
                             {state === false ? <ArrowBack style={{ color: "#FBFAFA" }} /> : <MenuIcon style={{ color: "#FBFAFA" }} />}
                         </IconButton>
                         <Typography variant="h5" style={{ color: "#FBFAFA", zIndex: 1 }}>
-                            <Box component="div">
-                                <SportsSoccerIcon className={classes.titleIcon} />
-                                Clement's Portfolio
+                            <Box className={classes.titleBox} component="div">
+                                <a href="/"><Avatar className={classes.titleIcon} src={footballIcon}/></a>Clement's Portfolio
                             </Box>
                         </Typography>
                         <MobileRightMenuSlider open={state.right}>
