@@ -3,9 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
     Avatar, Box, Card,
     CardActions, CardContent, CardHeader,
-    CardMedia, Collapse, Grid, IconButton,
+    CardMedia, Collapse, Divider, Grid, IconButton,
     Typography,
 } from '@material-ui/core';
+
 import clsx from 'clsx';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import GitHubIcon from '@material-ui/icons/GitHub';
@@ -42,26 +43,31 @@ import Photo5 from '../images/projects/cccufyp/photo5.png';
 
 const useStyles = makeStyles(theme => ({
     projectHeaderTitle: {
-        paddingBottom: theme.spacing(1),
-        color: "rgba(255,255,255,0.8)",
+        fontSize: "36px",
+        paddingTop: theme.spacing(3),
+        color: "rgba(20,20,20,0.8)",
     },
     projectIcon: {
         width: theme.spacing(4),
         height: theme.spacing(4),
         marginRight: "8px",
         paddingBottom: "3px",
-        color: "rgba(255,255,255,0.8)",
+        color: "rgba(0,0,0,0.8)",
         borderRadius: "50%"
     },
     projectCard: {
         paddingTop: theme.spacing(6), // 16:9
-        backgroundColor: "rgba(210,210,210,0.5)"
+        backgroundColor: "rgba(255,255,255,1)",
     },
     cardRoot: {
-        backgroundColor: "rgba(255,255,255,0.7)",
-        marginLeft: theme.spacing(3),
-        marginRight: theme.spacing(3),
-        marginBottom: theme.spacing(3),
+        backgroundColor: "rgba(255,255,255)",
+        paddingLeft: theme.spacing(32),
+        paddingRight: theme.spacing(32),
+        paddingTop: theme.spacing(3),
+        paddingBottom: theme.spacing(5),
+        border: "none",
+        boxShadow: "none",
+        borderRadius: 0,
     },
     cardHeaderTitle: {
         fontSize: "26px"
@@ -214,7 +220,7 @@ const Portfolio = () => {
                     {
                         projects.map((lsItem) => {
                             return (
-                                <Grid item xs={12} lg={6} md={6} key={lsItem.id}>
+                                <Grid item xs={12} lg={12} md={12} key={lsItem.id}>
                                     <Card className={classes.cardRoot} >
                                         <CardHeader
                                             classes={{
@@ -274,6 +280,7 @@ const Portfolio = () => {
                                             </CardContent>
                                         </Collapse>
                                     </Card>
+                                    {lsItem.id !== projects.length - 1?(<Divider light />):null}
                                 </Grid>
                             )
                         })
