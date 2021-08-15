@@ -259,6 +259,8 @@ const Portfolio = () => {
                                         </CardActions>
                                         <Collapse in={lsItem.expanded} timeout="auto" unmountOnExit>
                                             <CardContent>
+                                                {lsItem.expanded?(<Divider light />):null}
+                                                <br />
                                                 <Typography variant="h4" component="span">Screenshots:</Typography>
                                                 <Box component="div">
                                                     <Grid container spacing={4}>
